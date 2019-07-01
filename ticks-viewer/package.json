@@ -1,0 +1,10 @@
+{
+  "name": "ticks-viewer",
+  "version": "0.0.4",
+  "main": "dist/index.js",
+  "description": "The tick component shows how many Angular ticks has per second",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "rxjs":"^5.4.0"
+  }
+}
