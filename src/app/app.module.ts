@@ -7,7 +7,6 @@ import {appRoutes}      from "./app.routes";
 import {AppComponent}   from "./app.component";
 import {DemosModule}    from './demos/demos.module';
 
-
 @NgModule({
     declarations:[
         AppComponent,
