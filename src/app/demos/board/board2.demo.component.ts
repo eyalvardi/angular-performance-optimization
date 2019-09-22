@@ -2,14 +2,9 @@ import {Component, ElementRef, Renderer, NgZone, ChangeDetectorRef, ApplicationR
 import {BaseComponent} from "../base.component";
 
 @Component({
-    styles: [`
-        :host{ display: block; }
-        .flow{
-            float:left;
-        }
-    `],
+    selector : 'board',
     template: `
-<div>
+    <div>
     <h4>Board II component</h4>
     <P class="desc">
         This demo shows how we use only 1 setTimeout in 
@@ -39,11 +34,10 @@ import {BaseComponent} from "../base.component";
         <a (click)="addCounter(7000)">7,000</a> |
       
       <hr>
-      <counter2 class="flow"
-        *ngFor="let c of counters;let index=index"       
-        >
-          <!--[value]="value + index">-->
-      </counter2>
+        <div class="board">
+            <counter2 *ngFor="let c of counters;let index=index"></counter2>      
+        </div>
+      
 </div>
 `})
 export class BoardDemo2Component extends BaseComponent implements OnDestroy{
@@ -59,14 +53,6 @@ export class BoardDemo2Component extends BaseComponent implements OnDestroy{
         this.start();
     }
     get isTick(){return this._isTick;}
-
-    /*constructor(
-        protected elmRef : ElementRef,
-        protected render : Renderer,
-        protected zone   : NgZone,
-        protected cd?    : ChangeDetectorRef,
-        protected appRef?: ApplicationRef
-    ){ super(elmRef,render,zone,cd,appRef);}*/
 
     ngOnInit(){
         //console.time('counter');

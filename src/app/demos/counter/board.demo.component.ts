@@ -2,12 +2,6 @@ import {Component, ElementRef, Renderer, NgZone, ChangeDetectorRef} from "@angul
 import {BaseComponent} from "../base.component";
 
 @Component({
-    styles: [`
-        :host{ display: block; }
-        .flow{
-            float:left;
-        }
-    `],
     template: `
 <div>
     <h4>Counters components</h4>    
@@ -40,13 +34,14 @@ import {BaseComponent} from "../base.component";
         <a (click)="addCounter(5000)">5,500</a> |
         
       <hr>
-      <counter class="flow"
-        *ngFor="let c of counters"
-        [ms]="10" 
-        [value]="0" 
-        [isTick]="isTick"
-        [isDetectChanges]="isDetectChanges">    
-      </counter>
+      <div class="board">
+          <counter *ngFor   = "let c of counters"
+                   [ms]     = "10"
+                   [value]  = "0"
+                   [isTick] = "isTick"
+                   [isDetectChanges]="isDetectChanges">
+          </counter>
+      </div>      
 </div>
 `})
 export class BoardDemoComponent extends BaseComponent {

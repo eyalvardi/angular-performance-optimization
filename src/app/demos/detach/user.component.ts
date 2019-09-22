@@ -3,7 +3,7 @@ import {BaseComponent} from "../base.component";
 
 @Component({
     selector:'user-profile',
-    //changeDetection : ChangeDetectionStrategy.OnPush,
+    changeDetection : ChangeDetectionStrategy.OnPush,
     styles:[`
         :host{
             display: block;
@@ -57,6 +57,7 @@ export class UserComponent extends BaseComponent{
     //tags:string[] = ['HTML5/CSS3','jQuery','CakePHP','Android','AngularJS'];
 
     _isDetach:boolean;
+
     @Input()
     set isDetach(value){
         this._isDetach = value;

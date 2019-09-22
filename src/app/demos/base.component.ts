@@ -15,7 +15,6 @@ export function setBorder(val:boolean){
 
 @Component({
     selector: 'base',
-    styles: [],
     template: `
 <div>
   

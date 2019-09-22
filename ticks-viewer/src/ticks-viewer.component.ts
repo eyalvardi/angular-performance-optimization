@@ -1,8 +1,6 @@
 import { Component, ElementRef, NgZone, ChangeDetectorRef, ViewChild, Renderer2, OnDestroy, OnInit } from "@angular/core";
-
-import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
-import {Subscription} from "rxjs/Subscription";
+import {bufferTime, map, tap} from "rxjs/operators";
+import {Subject, Subscription} from "rxjs";
 
 @Component({
     selector: 'ticks-viewer',
@@ -36,11 +34,11 @@ import {Subscription} from "rxjs/Subscription";
 `})
 export class TicksViewerComponent implements OnDestroy{
 
-  value: number = 0;
+    value: number = 0;
     sub :Subscription;
     ticks$ = new Subject<number>();
 
-    @ViewChild('box',{read:ElementRef})
+    @ViewChild('box',{ read:ElementRef , static : true })
     boxElemRef:ElementRef;
 
     constructor(
@@ -48,44 +46,25 @@ export class TicksViewerComponent implements OnDestroy{
         protected zone:NgZone,
         protected cd: ChangeDetectorRef
     ){
-       /* zone.runOutsideAngular(()=>{
-            let pipe$ = this.ticks$
-                .do( t => this.updateBackgroundColor() )
-                .takeUntil( Observable.timer(1000) )
-                .count()
-                .do( (val:number) =>{
-                    this.value = val;
-                    this.cd.detectChanges();
-                });
-
-            let next = (v) =>{
-                this.sub.unsubscribe();
-                pipe$.subscribe(next)
-            };
-            this.sub = pipe$.subscribe(next);
-        });*/
-
 
         zone.runOutsideAngular(()=>{
-            let pipe$ = this.ticks$
-                .do( t => this.updateBackgroundColor() )
-                .bufferTime(1000)
-				.map((val:number[])=> val.length)
-				.do(legth => this.value = legth);
-
-
-            this.sub = pipe$.subscribe(() =>{                
-                this.cd.detectChanges();
-            });
+            this.sub = this.ticks$
+                .pipe(
+                    tap       ( t => this.updateBackgroundColor() ),
+                    bufferTime( 1000 ),
+                    map       ( (val:number[])  => val.length ),
+                    tap       ( (length:number) => { this.value = length } ),
+                )
+                .subscribe( () => {
+                    this.cd.detectChanges();
+                });
         });
     }
 
 
     // tick
     ngDoCheck(){
-        //this.countTick();
         this.ticks$.next(1);
-        //this.updateBackgroundColor();
     }
 
     updateBackgroundColor(){
